@@ -8,6 +8,7 @@ import isodate
 
 
 api_key: str = os.getenv('YT_API_KEY')
+print(api_key)
 
 
 youtube = build('youtube', 'v3', developerKey=api_key)
