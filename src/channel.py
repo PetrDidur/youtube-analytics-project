@@ -11,8 +11,8 @@ class Channel:
 
     def __init__(self, channel_id: str) -> None:
         youtube = build('youtube', 'v3', developerKey="AIzaSyAVUjvEjAiQAlylR6Zlnm7KRBJI1qta70o")
-        self.channel_id = channel_id
-        self.channel_info = youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
+        self._channel_id = channel_id
+        self.channel_info = youtube.channels().list(id=self._channel_id, part='snippet,statistics').execute()
         self.title = self.channel_info["items"][0]["snippet"]["title"]
         self.description = self.channel_info["items"][0]["snippet"]["description"]
         self.url = "https://www.youtube.com/channel/UCMCgOm8GZkHp8zJ6l7_hIuA"
@@ -22,9 +22,11 @@ class Channel:
 
 
 
+
+
     def print_info(self) -> None:
         youtube = build('youtube', 'v3', developerKey="AIzaSyAVUjvEjAiQAlylR6Zlnm7KRBJI1qta70o")
-        channels = youtube.channels().list(id=self.channel_id, part='snippet,statistics').execute()
+        channels = youtube.channels().list(id=self._channel_id, part='snippet,statistics').execute()
         print(channels)
 
     @classmethod
@@ -34,7 +36,7 @@ class Channel:
 
     def to_json(self, filename):
         data = {
-            "channel_id": self.channel_id,
+            "channel_id": self._channel_id,
             "title": self.title,
             "description": self.description,
             "url": self.url,
@@ -47,6 +49,10 @@ class Channel:
         with open(filename, "w", encoding="utf-8") as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
         return data
+
+    @property
+    def channel_id(self):
+        return self._channel_id
 
 
 
