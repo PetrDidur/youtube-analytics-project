@@ -6,11 +6,13 @@ from googleapiclient.discovery import build
 api_key = os.getenv('YT_API_KEY')
 print(api_key)
 
+
+
 class Channel:
     """Класс для ютуб-канала"""
 
     def __init__(self, channel_id: str) -> None:
-        youtube = build('youtube', 'v3', developerKey="AIzaSyAVUjvEjAiQAlylR6Zlnm7KRBJI1qta70o")
+        youtube = build('youtube', 'v3', developerKey=api_key)
         self._channel_id = channel_id
         self.channel_info = youtube.channels().list(id=self._channel_id, part='snippet,statistics').execute()
         self.title = self.channel_info["items"][0]["snippet"]["title"]
